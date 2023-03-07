@@ -1,0 +1,29 @@
+server:
+  port: 1987   #  配置启动端口号
+
+
+spring: #springboot的配置
+  datasource: #定义数据源
+    #127.0.0.1为本机测试的ip，3306是mysql的端口号。serverTimezone是定义时区，照抄就好，mysql高版本需要定义这些东西
+    #useSSL也是某些高版本mysql需要问有没有用SSL连接
+    url: jdbc:mysql://127.0.0.1:3306/onepiece?serverTimezone=GMT%2B8&useSSL=FALSE
+    username: root  #数据库用户名，root为管理员
+    password: 12345678 #该数据库用户的密码
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    prefix:
+      # 访问template下的html文件需要配置模板，映射
+      classpath:/templates/
+    # 开发禁用缓存
+    cache: false
+    servlet:
+      content-type: text/html
+    suffix: .html
