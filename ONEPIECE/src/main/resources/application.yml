@@ -27,3 +27,9 @@ spring: #springboot的配置
     servlet:
       content-type: text/html
     suffix: .html
+
+  #spring security
+  security:
+    user:
+      name: admin
+      password: 123456

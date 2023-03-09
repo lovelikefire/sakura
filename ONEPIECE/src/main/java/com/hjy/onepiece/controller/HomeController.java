@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class HomeController {
     private final UserService userService;
-    @RequestMapping("/login")
+
+    @RequestMapping("/")
     public String home(){
-        return "/login";
+        return "/home";
     }
 }
