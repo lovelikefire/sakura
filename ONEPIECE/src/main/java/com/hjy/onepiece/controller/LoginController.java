@@ -9,12 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,18 +26,17 @@ public class LoginController {
         return byId;
     }
     @PostMapping("/login")
-    public Result login(String username,String password){
-        System.out.println("username-------"+username);
-        System.out.println("password-------"+password);
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username,password);
+    public Result login(@RequestBody User user){
+        System.out.println("username-------"+user.getUsername());
+        System.out.println("password-------"+user.getPassword());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword());
         Authentication authenticate = authenticationManager.authenticate(token);
         boolean authenticated = authenticate.isAuthenticated();
         if (authenticated){
             String token1 = jwtService.getToken(authenticate);
             return Result.succ(token1);
         }else {
-            return Result.fail(username);
+            return Result.fail(user.getUsername());
         }
-
     }
 }
