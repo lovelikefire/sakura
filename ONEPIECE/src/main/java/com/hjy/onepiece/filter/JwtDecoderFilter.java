@@ -25,14 +25,20 @@ public class JwtDecoderFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = request.getHeader("Authorization");
-        if (token!=null){
-            if (jwtService.verified(token)){
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken("admin","123456", Collections.singleton(new SimpleGrantedAuthority("hejinayu")));
-                //存储通过验证的信息，用于下次使用
-                SecurityContextHolder.getContext().setAuthentication(auth);
+        String method = request.getMethod();
+        if ("OPTIONS".equals(method)){
+            filterChain.doFilter(request,response);
+        }else {
+            String token = request.getHeader("Authorization");
+            if (token!=null){
+                if (jwtService.verified(token)){
+                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken("admin","123456", Collections.singleton(new SimpleGrantedAuthority("hejinayu")));
+                    //存储通过验证的信息，用于下次使用
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
             }
+            filterChain.doFilter(request,response);
         }
-        filterChain.doFilter(request,response);
+
     }
 }
