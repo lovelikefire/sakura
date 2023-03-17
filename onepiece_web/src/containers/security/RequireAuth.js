@@ -6,8 +6,7 @@ import {message} from "antd";
 
 
 export default function RequireAuth({ children }) {
-    let storage = new LocalStorageUtil();
-    const authed = storage.getItem('token')
+    const authed = LocalStorageUtil.get('token')
     if (authed !=null){
         return children
     }else{
